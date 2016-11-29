@@ -63,7 +63,8 @@ RUN bash -c "cd /home/$username/ && exec $SHELL -l"
 RUN mkdir /etc/uwsgi/
 RUN echo "uWSGI==2.0.14" > /etc/uwsgi/packages.txt
 RUN bash -c "cd /etc/uwsgi/ && pyenv install 3.5.0"
-RUN bash -c "cd /etc/uwsgi/ && pyenv local 3.5.0 uwsgi"
+RUN bash -c "cd /etc/uwsgi/ && pyenv virtualenv 3.5.0 uwsgi"
+RUN bash -c "cd /etc/uwsgi/ && pyenv local uwsgi"
 RUN apt-get install -y nginx
 ADD settings/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD settings/nginx/conf.d/example.conf /etc/nginx/conf.d/example.conf
