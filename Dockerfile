@@ -55,6 +55,8 @@ RUN mkdir $ANYENV_ENV
 RUN chown -R $username:$username $ANYENV_HOME
 RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-dev libssl-dev libfreetype6-dev
 RUN anyenv install pyenv
+ENV PATH $ANYENV_ENV/pyenv/bin:$ANYENV_ENV/pyenv/shims:$PATH
+ENV PYENV_ROOT $ANYENV_ENV/pyenv
 RUN git clone "https://github.com/yyuu/pyenv-virtualenv" $ANYENV_ENV/pyenv/plugins/pyenv-virtualenv
 RUN chown -R $username:$username $ANYENV_HOME
 RUN bash -c "cd /home/$username/ && exec $SHELL -l"
