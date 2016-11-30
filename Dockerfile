@@ -37,6 +37,8 @@ RUN sudo -u $username cp /home/$username/gitwork/bitbucket/dotfiles/.bash_profil
 RUN sudo -u $username cp /home/$username/gitwork/bitbucket/dotfiles/.gitconfig /home/$username/.gitconfig
 RUN sudo -u $username mkdir -p /home/$username/.ssh/
 RUN sudo -u $username cp /home/$username/gitwork/bitbucket/dotfiles/.ssh/config /home/$username/.ssh/config
+RUN curl -o /usr/local/bin/hcat "https://raw.githubusercontent.com/nobiki/bash-hcat/master/hcat"
+RUN chmod +x /usr/local/bin/hcat
 RUN curl -o /usr/local/bin/jq "http://stedolan.github.io/jq/download/linux64/jq"
 RUN chmod +x /usr/local/bin/jq
 ADD archives/peco_linux_amd64/peco /usr/local/bin/
@@ -57,7 +59,7 @@ RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-
 RUN anyenv install pyenv
 ENV PATH $ANYENV_ENV/pyenv/bin:$ANYENV_ENV/pyenv/shims:$PATH
 ENV PYENV_ROOT $ANYENV_ENV/pyenv
-RUN git clone "https://github.com/yyuu/pyenv-virtualenv" $ANYENV_ENV/pyenv/plugins/pyenv-virtualenv
+RUN git clone "https://github.com/yyuu/pyenv-virtualenv" $PYENV_ROOT/plugins/pyenv-virtualenv
 RUN chown -R $username:$username $ANYENV_HOME
 RUN bash -c "cd /home/$username/ && exec $SHELL -l"
 RUN mkdir /etc/uwsgi/
