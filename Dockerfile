@@ -103,6 +103,7 @@ RUN bash -c "cd /etc/uwsgi/ && pip install -r packages.txt"
 ADD settings/uwsgi/emperor.ini /etc/uwsgi/
 ADD settings/uwsgi/application.ini.example /etc/uwsgi/
 ADD settings/uwsgi/uwsgi.service /etc/systemd/system/
+RUN systemctl enable uwsgi
 RUN mkdir /etc/uwsgi/sockets/
 RUN chown www-data:www-data /etc/uwsgi/sockets/
 RUN mkdir /var/log/uwsgi/
