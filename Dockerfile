@@ -70,9 +70,12 @@ RUN bash -c "cd /etc/uwsgi/ && pyenv local uwsgi"
 RUN echo "3.5.0/envs/uwsgi" > /etc/uwsgi/.python-version
 RUN bash -c "cd /etc/uwsgi/ && pip install -r packages.txt"
 ADD settings/uwsgi/emperor.ini /etc/uwsgi/
+ADD settings/uwsgi/application.ini.example /etc/uwsgi/
 ADD settings/uwsgi/uwsgi.service /etc/systemd/system/
+RUN mkdir /etc/uwsgi/sockets/
+RUN chown www-data:www-data /etc/uwsgi/sockets/
 RUN mkdir /var/log/uwsgi/
-RUN chmod 755 /var/log/uwsgi/
+RUN chmod 666 /var/log/uwsgi/
 RUN apt-get install -y nginx
 ADD settings/nginx/nginx.conf /etc/nginx/nginx.conf
 RUN anyenv install ndenv
