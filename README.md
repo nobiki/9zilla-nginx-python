@@ -1,2 +1,2 @@
 # 9zilla-nginx-python
-Debian Web Server - Nginx, uwsgi
+Debian Web Server - Python, Nginx, uWSGI
