@@ -55,12 +55,43 @@ RUN echo 'eval "$(anyenv init -)"' >> /home/$username/.bash_profile
 ENV PATH $ANYENV_HOME/bin:$PATH
 RUN mkdir $ANYENV_ENV
 RUN chown -R $username:$username $ANYENV_HOME
+RUN apt-get install -y xvfb
+RUN echo "Xvfb :99 -screen 0 1920x1200x24 > /dev/null &" > /usr/local/bin/selenium-xvfb
+RUN chmod +x /usr/local/bin/selenium-xvfb
+RUN wget -q -O - "https://dl-ssl.google.com/linux/linux_signing_key.pub" | apt-key add -
+RUN echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google-chrome.list
+RUN apt-get update
+RUN apt-get install -y google-chrome-stable
+RUN apt-get install -y firefox-esr
+RUN apt-get install -y php5 php5-curl php5-imagick imagemagick
+RUN systemctl disable apache2
+RUN curl -sS "https://getcomposer.org/installer" | php -- --install-dir=/usr/local/bin
+RUN chown $username:$username /home/$username/.composer
+RUN apt-get install -y default-jdk
+ADD archives/selenium-server-standalone.jar /usr/local/bin/
+RUN echo "DISPLAY=:99 java -jar /usr/local/bin/selenium-server-standalone.jar -Dwebdriver.chrome.driver=/usr/local/lib/selenium/chromedriver" > /usr/local/bin/selenium
+RUN chmod +x /usr/local/bin/selenium
+RUN mkdir /usr/local/lib/selenium
+ADD archives/chromedriver /usr/local/lib/selenium/
+RUN mkdir -p /usr/local/lib/behat/
+ADD settings/behat/composer.json /usr/local/lib/behat/
+ADD settings/behat/behat.yml /usr/local/lib/behat/
+RUN chown -R $username:$username /usr/local/lib/behat/
+RUN ln -s /usr/local/lib/behat/bin/behat /usr/local/bin/behat
+RUN ln -s /usr/local/lib/behat/ /home/$username/ci/behat
+RUN anyenv install ndenv
+ENV PATH $ANYENV_ENV/ndenv/bin:$ANYENV_ENV/ndenv/shims:$PATH
+ENV NDENV_ROOT $ANYENV_ENV/ndenv
+RUN chown -R $username:$username $ANYENV_HOME
 RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-dev libssl-dev libfreetype6-dev
 RUN anyenv install pyenv
 ENV PATH $ANYENV_ENV/pyenv/bin:$ANYENV_ENV/pyenv/shims:$PATH
 ENV PYENV_ROOT $ANYENV_ENV/pyenv
 RUN git clone "https://github.com/yyuu/pyenv-virtualenv" $PYENV_ROOT/plugins/pyenv-virtualenv
 RUN chown -R $username:$username $ANYENV_HOME
+RUN apt-get install -y nginx
+ADD settings/nginx/nginx.conf /etc/nginx/nginx.conf
+RUN chmod 755 /var/log/nginx/
 RUN bash -c "cd /home/$username/ && exec $SHELL -l"
 RUN mkdir /etc/uwsgi/
 RUN echo "uWSGI==2.0.14" > /etc/uwsgi/packages.txt
@@ -75,9 +106,5 @@ ADD settings/uwsgi/uwsgi.service /etc/systemd/system/
 RUN mkdir /etc/uwsgi/sockets/
 RUN chown www-data:www-data /etc/uwsgi/sockets/
 RUN mkdir /var/log/uwsgi/
-RUN chmod 666 /var/log/uwsgi/
-RUN apt-get install -y nginx
-ADD settings/nginx/nginx.conf /etc/nginx/nginx.conf
-RUN anyenv install ndenv
-RUN chown -R $username:$username $ANYENV_HOME
+RUN chmod 755 /var/log/uwsgi/
 RUN apt-get install -y mariadb-client libmysqlclient-dev
