@@ -100,6 +100,7 @@ RUN bash -c "cd /etc/uwsgi/ && pyenv virtualenv 3.5.0 uwsgi"
 RUN bash -c "cd /etc/uwsgi/ && pyenv local uwsgi"
 RUN echo "3.5.0/envs/uwsgi" > /etc/uwsgi/.python-version
 RUN bash -c "cd /etc/uwsgi/ && pip install -r packages.txt"
+RUN chown -R $username:$username $ANYENV_HOME
 ADD settings/uwsgi/emperor.ini /etc/uwsgi/
 ADD settings/uwsgi/application.ini.example /etc/uwsgi/
 ADD settings/uwsgi/uwsgi.service /etc/systemd/system/
