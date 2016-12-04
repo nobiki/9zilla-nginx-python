@@ -109,4 +109,5 @@ RUN mkdir /etc/uwsgi/sockets/
 RUN chown www-data:www-data /etc/uwsgi/sockets/
 RUN mkdir /var/log/uwsgi/
 RUN chmod 755 /var/log/uwsgi/
+RUN chown www-data:www-data /var/log/uwsgi/
 RUN apt-get install -y mariadb-client libmysqlclient-dev
