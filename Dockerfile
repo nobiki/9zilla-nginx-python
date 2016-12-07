@@ -47,6 +47,10 @@ RUN chmod +x /usr/local/bin/peco
 RUN git clone "https://github.com/b4b4r07/enhancd.git" /usr/local/src/enhancd
 RUN chmod +x /usr/local/src/enhancd/init.sh
 RUN echo 'source /usr/local/src/enhancd/init.sh' >> /home/$username/.bash_profile
+RUN echo 'if [ -e $HOME/.anyenv/bin ]; then' >> /home/$username/.bash_profile
+RUN echo '  export PATH="$HOME/.anyenv/bin:$PATH"' >> /home/$username/.bash_profile
+RUN echo '  eval "$(anyenv init -)"' >> /home/$username/.bash_profile
+RUN echo 'fi' >> /home/$username/.bash_profile
 RUN apt-get install -y xvfb
 RUN echo "Xvfb :99 -screen 0 1920x1200x24 > /dev/null &" > /usr/local/bin/selenium-xvfb
 RUN chmod +x /usr/local/bin/selenium-xvfb
