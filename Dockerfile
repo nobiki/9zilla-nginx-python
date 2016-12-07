@@ -58,6 +58,7 @@ RUN apt-get install -y firefox-esr
 RUN apt-get install -y php5 php5-curl php5-imagick imagemagick
 RUN systemctl disable apache2
 RUN curl -sS "https://getcomposer.org/installer" | php -- --install-dir=/usr/local/bin
+RUN mkdir -p /home/$username/.composer
 RUN chown $username:$username /home/$username/.composer
 RUN apt-get install -y default-jdk
 ADD archives/selenium-server-standalone.jar /usr/local/bin/
