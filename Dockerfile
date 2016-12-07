@@ -1,11 +1,9 @@
 FROM debian:jessie
 MAINTAINER Naoaki Obiki
+RUN apt-get update
 ARG username="9zilla"
 ARG password="9zilla"
-RUN apt-get update
-RUN apt-get install -y make gcc g++ lsb-release
-RUN apt-get install -y vim git tig bzip2 unzip tree sed bash-completion dbus sudo openssl curl wget expect cron
-RUN apt-get install -y vim dnsutils procps siege pandoc locales dialog htop inetutils-traceroute iftop bmon iptraf nload slurm sl toilet lolcat
+RUN apt-get install -y sudo
 RUN mkdir /home/$username
 RUN useradd -s /bin/bash -d /home/$username $username && echo "$username:$password" | chpasswd
 RUN echo ${username}' ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/$username
@@ -14,6 +12,9 @@ RUN chown -R $username:$username /home/$username
 RUN mkdir /var/workspace/
 RUN ln -s /var/workspace/ /home/$username/workspace
 RUN chown $username:$username /home/$username/workspace
+RUN apt-get install -y make gcc g++ lsb-release
+RUN apt-get install -y vim git tig bzip2 unzip tree sed bash-completion dbus openssl curl wget expect cron
+RUN apt-get install -y vim dnsutils procps siege pandoc locales dialog htop inetutils-traceroute iftop bmon iptraf nload slurm sl toilet lolcat
 RUN locale-gen ja_JP.UTF-8
 RUN localedef -f UTF-8 -i ja_JP ja_JP
 ENV LANG ja_JP.UTF-8
@@ -46,15 +47,6 @@ RUN chmod +x /usr/local/bin/peco
 RUN git clone "https://github.com/b4b4r07/enhancd.git" /usr/local/src/enhancd
 RUN chmod +x /usr/local/src/enhancd/init.sh
 RUN echo 'source /usr/local/src/enhancd/init.sh' >> /home/$username/.bash_profile
-ENV HOME /home/$username
-ENV ANYENV_HOME $HOME/.anyenv
-ENV ANYENV_ENV $ANYENV_HOME/envs
-RUN git clone "https://github.com/riywo/anyenv" $ANYENV_HOME
-RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> /home/$username/.bash_profile
-RUN echo 'eval "$(anyenv init -)"' >> /home/$username/.bash_profile
-ENV PATH $ANYENV_HOME/bin:$PATH
-RUN mkdir $ANYENV_ENV
-RUN chown -R $username:$username $ANYENV_HOME
 RUN apt-get install -y xvfb
 RUN echo "Xvfb :99 -screen 0 1920x1200x24 > /dev/null &" > /usr/local/bin/selenium-xvfb
 RUN chmod +x /usr/local/bin/selenium-xvfb
@@ -79,19 +71,11 @@ ADD settings/behat/behat.yml /usr/local/lib/behat/
 RUN chown -R $username:$username /usr/local/lib/behat/
 RUN ln -s /usr/local/lib/behat/bin/behat /usr/local/bin/behat
 RUN ln -s /usr/local/lib/behat/ /home/$username/ci/behat
-RUN anyenv install ndenv
-ENV PATH $ANYENV_ENV/ndenv/bin:$ANYENV_ENV/ndenv/shims:$PATH
-ENV NDENV_ROOT $ANYENV_ENV/ndenv
-RUN chown -R $username:$username $ANYENV_HOME
-RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-dev libssl-dev libfreetype6-dev
-RUN anyenv install pyenv
-ENV PATH $ANYENV_ENV/pyenv/bin:$ANYENV_ENV/pyenv/shims:$PATH
-ENV PYENV_ROOT $ANYENV_ENV/pyenv
-RUN git clone "https://github.com/yyuu/pyenv-virtualenv" $PYENV_ROOT/plugins/pyenv-virtualenv
-RUN chown -R $username:$username $ANYENV_HOME
 RUN apt-get install -y nginx
 ADD settings/nginx/nginx.conf /etc/nginx/nginx.conf
 RUN chmod 755 /var/log/nginx/
+RUN systemctl enable nginx
+RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-dev libssl-dev libfreetype6-dev
 RUN bash -c "cd /home/$username/ && exec $SHELL -l"
 RUN mkdir /etc/uwsgi/
 RUN echo "uWSGI==2.0.14" > /etc/uwsgi/packages.txt
