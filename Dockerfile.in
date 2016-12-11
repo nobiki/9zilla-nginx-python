@@ -5,6 +5,7 @@ RUN apt-get update
 
 #include "./include/useradd.docker"
 #include "./include/plain.docker"
+#include "./include/direnv.docker"
 
 #include "./include/xvfb.docker"
 #include "./include/browser.docker"
