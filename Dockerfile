@@ -98,5 +98,4 @@ RUN chmod 755 /var/log/uwsgi/
 RUN chown www-data:www-data /var/log/uwsgi/
 ADD settings/uwsgi/uwsgi_setup.sh /
 RUN chmod +x /uwsgi_setup.sh
-ENTRYPOINT ["/uwsgi_setup.sh"]
 RUN apt-get install -y mariadb-client libmysqlclient-dev
