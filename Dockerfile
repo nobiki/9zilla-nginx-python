@@ -86,6 +86,8 @@ RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-
 RUN mkdir /etc/uwsgi/
 RUN echo "uWSGI==2.0.14" > /etc/uwsgi/packages.txt
 RUN echo "3.5.0/envs/uwsgi" > /etc/uwsgi/.python-version
+RUN chown $username:$username /etc/uwsgi/packages.txt
+RUN chown $username:$username /etc/uwsgi/.python-version
 ADD settings/uwsgi/emperor.ini /etc/uwsgi/
 ADD settings/uwsgi/application.ini.example /etc/uwsgi/
 ADD settings/uwsgi/uwsgi.service /etc/systemd/system/
@@ -96,4 +98,5 @@ RUN chmod 755 /var/log/uwsgi/
 RUN chown www-data:www-data /var/log/uwsgi/
 ADD settings/uwsgi/uwsgi_setup.sh /
 RUN chmod +x /uwsgi_setup.sh
+ENTRYPOINT ["/uwsgi_setup.sh"]
 RUN apt-get install -y mariadb-client libmysqlclient-dev
