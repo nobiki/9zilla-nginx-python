@@ -52,12 +52,12 @@ RUN chown $username:$username /etc/uwsgi/packages.txt
 RUN chown $username:$username /etc/uwsgi/.python-version
 RUN mkdir /etc/uwsgi/sockets/ && chown www-data:www-data /etc/uwsgi/sockets/
 RUN mkdir /var/log/uwsgi/ && chmod 755 /var/log/uwsgi/ && chown www-data:www-data /var/log/uwsgi/
-ADD settings/uwsgi/uwsgi.sh /
+COPY settings/uwsgi/uwsgi.sh /
 RUN chmod +x /uwsgi.sh
 RUN apt-get install -y nginx
 RUN chmod 755 /var/log/nginx/
 RUN systemctl enable nginx
 RUN apt-get install -y mariadb-client libmysqlclient-dev
-ADD bootstrap.sh /
+COPY bootstrap.sh /
 RUN chmod +x /bootstrap.sh
 CMD ["/bootstrap.sh"]

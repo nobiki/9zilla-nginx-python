@@ -1,5 +1,9 @@
 #!/bin/bash
 
-/uwsgi.sh
+if [ ! -e /bootstrap.lock ]; then
+  /uwsgi.sh
+
+  touch /bootstrap.lock
+fi
 
 /usr/bin/supervisord -n
