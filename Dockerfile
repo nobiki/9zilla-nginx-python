@@ -41,7 +41,7 @@ RUN echo '  eval "$(anyenv init -)"' >> /home/$username/.bash_profile
 RUN echo 'fi' >> /home/$username/.bash_profile
 RUN apt-get install -y direnv
 RUN echo 'eval "$(direnv hook bash)"' >> /home/$username/.bash_profile
-RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-dev libssl-dev libfreetype6-dev
+RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-dev libssl-dev libfreetype6-dev libpcre3 libpcre3-dev
 RUN mkdir /etc/uwsgi/
 ADD settings/uwsgi/emperor.ini /etc/uwsgi/
 ADD settings/uwsgi/application.ini.example /etc/uwsgi/
