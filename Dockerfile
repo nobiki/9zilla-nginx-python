@@ -56,7 +56,7 @@ COPY settings/uwsgi/uwsgi.sh /
 RUN chmod +x /uwsgi.sh
 RUN apt-get install -y nginx
 RUN chmod 755 /var/log/nginx/
-ADD settings/nginx.nginx.conf /etc/nginx/
+ADD settings/nginx/nginx.conf /etc/nginx/
 RUN systemctl enable nginx
 RUN apt-get install -y mariadb-client libmysqlclient-dev
 COPY bootstrap.sh /
