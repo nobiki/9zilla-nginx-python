@@ -5,6 +5,7 @@ update:
 	git pull origin master
 	git submodule update --init --recursive
 	git submodule foreach git pull origin master
+	cd ./9zilla/ && git submodule foreach git pull origin master && cd ../
 	cp ./9zilla/Dockerfile.in.python ./Dockerfile.in
 
 build: Dockerfile
