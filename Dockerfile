@@ -35,6 +35,9 @@ RUN echo "export LANGUAGE=ja_JP:jp" >> /home/$username/.bash_profile
 RUN echo "export LC_ALL=ja_JP.UTF-8" >> /home/$username/.bash_profile
 RUN curl -o /usr/local/bin/hcat "https://raw.githubusercontent.com/nobiki/bash-hcat/master/hcat" && chmod +x /usr/local/bin/hcat
 RUN curl -o /usr/local/bin/jq "http://stedolan.github.io/jq/download/linux64/jq" && chmod +x /usr/local/bin/jq
+RUN mkdir -p /usr/local/lib/sql-formatter/ && chown $username:$username /usr/local/lib/sql-formatter/
+RUN git clone "https://github.com/jdorn/sql-formatter" /usr/local/lib/sql-formatter
+RUN ln -s /usr/local/lib/sql-formatter/bin/sql-formatter /usr/local/bin/sql-formatter
 RUN echo 'if [ -e $HOME/.anyenv/bin ]; then' >> /home/$username/.bash_profile
 RUN echo '  export PATH="$HOME/.anyenv/bin:$PATH"' >> /home/$username/.bash_profile
 RUN echo '  eval "$(anyenv init -)"' >> /home/$username/.bash_profile
