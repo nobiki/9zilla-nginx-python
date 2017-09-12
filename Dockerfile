@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Naoaki Obiki
 RUN apt-get update && apt-get install -y sudo git
 ARG username="9zilla"
@@ -68,7 +68,7 @@ RUN apt-get install -y nginx
 RUN chmod 755 /var/log/nginx/
 ADD settings/nginx/nginx.conf /etc/nginx/
 RUN systemctl enable nginx
-RUN apt-get install -y mariadb-client libmysqlclient-dev
+RUN apt-get install -y mariadb-client default-libmysqlclient-dev
 COPY bootstrap.sh /
 RUN chmod +x /bootstrap.sh
 CMD ["/bootstrap.sh"]
