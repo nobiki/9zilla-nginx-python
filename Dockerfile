@@ -50,7 +50,7 @@ RUN chmod a+x /usr/local/bin/certbot-auto
 RUN /usr/local/bin/certbot-auto --os-packages-only --non-interactive
 RUN apt-get install -y direnv
 RUN echo 'eval "$(direnv hook bash)"' >> /home/$username/.bash_profile
-RUN apt-get install -y vim-nox pkg-config libbz2-dev libreadline-dev libsqlite3-dev libssl-dev libfreetype6-dev libpcre3 libpcre3-dev libncurses5 libncurses5-dev libncursesw5
+RUN apt-get install -y vim-nox pkg-config make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libfreetype6-dev llvm libncurses5 libncurses5-dev libncursesw5 libncursesw5-dev xz-utils tk-dev
 RUN mkdir /etc/uwsgi/
 ADD settings/uwsgi/emperor.ini /etc/uwsgi/
 ADD settings/uwsgi/application.ini.example /etc/uwsgi/
