@@ -1,7 +1,7 @@
 FROM debian:stretch
 MAINTAINER Naoaki Obiki
 
-RUN apt-get update && apt-get install -y sudo git
+RUN apt-get update && apt-get install -y sudo git systemd
 
 #include "./include/useradd.docker"
 #include "./include/base.docker"

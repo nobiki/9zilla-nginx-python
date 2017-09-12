@@ -1,6 +1,6 @@
 FROM debian:stretch
 MAINTAINER Naoaki Obiki
-RUN apt-get update && apt-get install -y sudo git
+RUN apt-get update && apt-get install -y sudo git systemd
 ARG username="9zilla"
 ARG password="9zilla"
 RUN mkdir /home/$username
