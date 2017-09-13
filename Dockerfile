@@ -55,8 +55,8 @@ RUN mkdir /etc/uwsgi/
 ADD settings/uwsgi/emperor.ini /etc/uwsgi/
 ADD settings/uwsgi/application.ini.example /etc/uwsgi/
 ADD settings/uwsgi/uwsgi.service /etc/systemd/system/
-RUN echo "uWSGI==2.0.14" > /etc/uwsgi/packages.txt
-RUN echo "redis==2.10.5" >> /etc/uwsgi/packages.txt
+RUN echo "uWSGI==2.0.15" > /etc/uwsgi/packages.txt
+RUN echo "redis==2.10.6" >> /etc/uwsgi/packages.txt
 RUN echo "3.6.2/envs/uwsgi" > /etc/uwsgi/.python-version
 RUN chown $username:$username /etc/uwsgi/packages.txt
 RUN chown $username:$username /etc/uwsgi/.python-version
