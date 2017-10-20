@@ -41,6 +41,10 @@ RUN ln -s /usr/local/lib/highway/hw /usr/local/bin/hw
 RUN mkdir -p /usr/local/lib/sql-formatter/ && chown $username:$username /usr/local/lib/sql-formatter/
 RUN git clone "https://github.com/jdorn/sql-formatter" /usr/local/lib/sql-formatter
 RUN ln -s /usr/local/lib/sql-formatter/bin/sql-formatter /usr/local/bin/sql-formatter
+RUN apt-get install -y libncurses5 libncurses5-dev libncursesw5 libncursesw5-dev libreadline-dev pkg-config
+RUN git clone "https://github.com/dvorka/hstr.git" /usr/local/lib/hstr
+RUN cd /usr/local/lib/hstr/dist && ./1-dist.sh
+RUN cd /usr/local/lib/hstr && ./configure && make && make install
 RUN echo 'if [ -e $HOME/.anyenv/bin ]; then' >> /home/$username/.bash_profile
 RUN echo '  export PATH="$HOME/.anyenv/bin:$PATH"' >> /home/$username/.bash_profile
 RUN echo '  eval "$(anyenv init -)"' >> /home/$username/.bash_profile
