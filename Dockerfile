@@ -8,7 +8,7 @@ RUN useradd -s /bin/bash -d /home/$username $username && echo "$username:$passwo
 RUN echo ${username}' ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/$username
 RUN mkdir -p /home/$username/ci
 RUN chown -R $username:$username /home/$username
-RUN apt-get install -y make autoconf automake gcc g++ vim tig dbus bash-completion supervisor bzip2 unzip p7zip-full tree sed silversearcher-ag pandoc locales dialog chrony openssl curl wget ftp ncftp subversion mutt msmtp expect cron dnsutils procps siege htop inetutils-traceroute iftop bmon iptraf nload slurm screen byobu sl toilet lolcat lsb-release
+RUN apt-get install -y make autoconf automake gcc g++ vim tig dbus bash-completion supervisor bzip2 unzip pigz p7zip-full tree sed pandoc locales dialog chrony openssl curl wget aria2 ftp ncftp subversion mutt msmtp expect cron dnsutils procps siege htop inetutils-traceroute iftop bmon iptraf nload slurm screen byobu sl toilet lolcat lsb-release
 RUN locale-gen ja_JP.UTF-8 && localedef -f UTF-8 -i ja_JP ja_JP
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:jp
